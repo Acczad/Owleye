@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9EEFC64B-E9C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Owleye.Domain", "src\Owleye.Domain\Owleye.Domain.csproj", "{F041917C-F618-4ACF-A718-AA84E4E20F63}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Owleye.Application", "src\Owleye.Application\Owleye.Application\Owleye.Application.csproj", "{66F9FDDE-6F16-4B6B-9ED5-DD61317CEA56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Owleye.Application", "src\Owleye.Application\Owleye.Application.csproj", "{66F9FDDE-6F16-4B6B-9ED5-DD61317CEA56}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Owleye.Shared", "src\Owleye.Shared\Owleye.Shared.csproj", "{A6A098A0-77A8-47FF-AA3D-A9FAE4555A47}"
 EndProject

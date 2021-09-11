@@ -17,12 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Owleye.Domain\Owleye.Domain.csproj" />
-    <ProjectReference Include="..\..\Owleye.Shared\Owleye.Shared.csproj" />
+    <Folder Include="Sensors\Command\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Sensors\Command\" />
+    <ProjectReference Include="..\Owleye.Domain\Owleye.Domain.csproj" />
+    <ProjectReference Include="..\Owleye.Shared\Owleye.Shared.csproj" />
   </ItemGroup>
 
 </Project>

@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Owleye.Application\Owleye.Application\Owleye.Application.csproj" />
+    <ProjectReference Include="..\Owleye.Application\Owleye.Application.csproj" />
     <ProjectReference Include="..\Owleye.Domain\Owleye.Domain.csproj" />
     <ProjectReference Include="..\Owleye.Shared\Owleye.Shared.csproj" />
   </ItemGroup>
