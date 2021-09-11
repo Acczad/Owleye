@@ -1,9 +1,9 @@
-﻿using Owleye.Core.Aggrigate;
+﻿using Owleye.Domain;
 using Owleye.Infrastructure.Quartz;
 using Owleye.Infrastructure.Service;
 using Quartz.Impl;
 
-namespace Owleye.Core
+namespace Owleye.Application
 {
     public partial class QuartzBootStrap
     {

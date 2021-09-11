@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Owleye.Core.Aggrigate;
+using Owleye.Domain;
 using Owleye.Infrastructure.Data.ModelMapping;
 
 namespace Owleye.Infrastructure.Data
