@@ -2,10 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Extensions\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <None Remove="Extensions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="EasyCaching.Core" Version="1.4.0" />
     <PackageReference Include="Quartz" Version="3.0.7" />
     <PackageReference Include="MediatR" Version="8.0.2" />
@@ -18,11 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\Owleye.Service\Owleye.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Extensions\" />
+    <ProjectReference Include="..\Owleye.Application\Owleye.Application\Owleye.Application.csproj" />
+    <ProjectReference Include="..\Owleye.Domain\Owleye.Domain.csproj" />
+    <ProjectReference Include="..\Owleye.Shared\Owleye.Shared.csproj" />
   </ItemGroup>
 
 </Project>

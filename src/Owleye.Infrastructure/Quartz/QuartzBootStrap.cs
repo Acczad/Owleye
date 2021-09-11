@@ -1,17 +1,17 @@
-﻿using Owleye.Core.Aggrigate;
+﻿using Owleye.Domain;
 using Owleye.Infrastructure.Quartz;
 using Owleye.Infrastructure.Service;
 using Quartz.Impl;
 
-namespace Owleye.Core
+namespace Owleye.Application
 {
     public partial class QuartzBootStrap
     {
-        public void Boot()
+        public static async void Boot()
         {
 
-            var scheduler = StdSchedulerFactory.GetDefaultScheduler().Result; //TODO fix this.
-            scheduler.Start();
+            var scheduler = await StdSchedulerFactory.GetDefaultScheduler(); 
+            await scheduler.Start();
 
             var schedulerService = ServiceLocator.Resolve<IQrtzSchedule>();
 
@@ -19,7 +19,6 @@ namespace Owleye.Core
             schedulerService.schedule<QuartzJob>(scheduler, SensorInterval.ThirtySecond);
             schedulerService.schedule<QuartzJob>(scheduler, SensorInterval.FifteenMinutes);
             schedulerService.schedule<QuartzJob>(scheduler, SensorInterval.FiveMinute);
-
         }
     }
 

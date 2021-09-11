@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.6" />
+    <PackageReference Include="Quartz" Version="3.0.7" />
+    <PackageReference Include="Enums.NET" Version="3.0.3" />
+    <PackageReference Include="LiteX.Email.Core" Version="8.1.0" />
+    <PackageReference Include="MediatR" Version="8.0.2" />
+    <PackageReference Include="Dawn.Guard" Version="1.12.0" />
+    <PackageReference Include="Extension.Methods" Version="0.2.0" />
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Owleye.Domain\Owleye.Domain.csproj" />
+    <ProjectReference Include="..\..\Owleye.Shared\Owleye.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Sensors\Command\" />
+  </ItemGroup>
+
+</Project>

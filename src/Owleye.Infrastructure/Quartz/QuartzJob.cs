@@ -1,36 +1,40 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
-using Owleye.Core.Dto.Messages;
+using Owleye.Application.Dto.Messages;
 using Quartz;
-using Owleye.Core.Aggrigate;
+using Owleye.Domain;
 using Owleye.Infrastructure.Service;
-using Owleye.Core.Services;
+using Owleye.Application.Sensors.Queries.GetSensorsList;
+using Owleye.Application.Dto;
+using Owleye.Shared.Model;
 
-namespace Owleye.Core
+namespace Owleye.Application
 {
-    public partial class QuartzBootStrap
+    [DisallowConcurrentExecution]
+    public class QuartzJob : IJob
     {
-        [DisallowConcurrentExecution]
-        public class QuartzJob : IJob
+        public async Task Execute(IJobExecutionContext context)
         {
-            public async Task Execute(IJobExecutionContext context)
+            var mediator = ServiceLocator.Resolve<IMediator>();
+          
+            
+
+            JobDataMap dataMap = context.JobDetail.JobDataMap;
+            SensorInterval interval = (SensorInterval)dataMap["Interval"];
+
+            var query = new GetSensorsListByIntervalQuery
             {
-                var mediator = ServiceLocator.Resolve<IMediator>();
-                var service = ServiceLocator.Resolve<ISensorService>();
-
-                JobDataMap dataMap = context.JobDetail.JobDataMap;
-                SensorInterval interval = (SensorInterval)dataMap["Interval"];
-
-                var sensors = await service.GetSensors(interval);
-                await mediator.Publish(new EndPointCheckMessage
-                {
-                    EndPointList = sensors
-                });
-            }
+                SensorInterval = interval
+            };
 
 
+            var sensors = await mediator.Send<QueryListResult<SensorDto>>(query);
+
+            await mediator.Publish(new EndPointCheckMessage
+            {
+                EndPointList = sensors.Data
+            });
         }
-
     }
 
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Owleye.Core.Aggrigate;
+using Owleye.Domain;
 
 namespace Owleye.Infrastructure.Data.ModelMapping
 {
