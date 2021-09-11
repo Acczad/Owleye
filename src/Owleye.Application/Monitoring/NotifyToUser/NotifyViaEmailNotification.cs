@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Owleye.Application.Notifications.Messages
 {
-    public class NotifyViaEmailMessage : INotification
+    public class NotifyViaEmailNotification : INotification
     {
         public string ServiceUrl { get; set; }
         public string IpAddress { get; set; }

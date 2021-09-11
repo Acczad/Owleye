@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Owleye.Application.Notifications.Messages
 {
-    public class PageLoadNotificationMessage : INotification
+    public class PageLoadResultNotification : INotification
     {
         public int EndPointId { get; set; }
         public string PageUrl { get; set; }

@@ -10,18 +10,18 @@ using Owleye.Domain;
 
 namespace Owleye.Application.Handlers
 {
-    public class PageLoadResultHandler : INotificationHandler<PageLoadNotificationMessage>
+    public class PageLoadResultNotificationHandler : INotificationHandler<PageLoadResultNotification>
     {
         private readonly IMediator _mediator;
         private readonly IRedisCache _cache;
 
-        public PageLoadResultHandler(IMediator mediator, IRedisCache cache)
+        public PageLoadResultNotificationHandler(IMediator mediator, IRedisCache cache)
         {
             _mediator = mediator;
             _cache = cache;
         }
 
-        public async Task Handle(PageLoadNotificationMessage notification, CancellationToken cancellationToken)
+        public async Task Handle(PageLoadResultNotification notification, CancellationToken cancellationToken)
         {
             MonitoringHistoryDto history = null;
 
@@ -42,11 +42,11 @@ namespace Owleye.Application.Handlers
             await _cache.SetAsync(cacheKey, history);
         }
 
-        private async Task Notify(PageLoadNotificationMessage notification, CancellationToken cancellationToken)
+        private async Task Notify(PageLoadResultNotification notification, CancellationToken cancellationToken)
         {
             if (notification.EmailNotify.IsNotNullOrEmpty())
             {
-                await _mediator.Publish(new NotifyViaEmailMessage
+                await _mediator.Publish(new NotifyViaEmailNotification
                 {
                     ServiceUrl = notification.PageUrl,
                     SensorType = SensorType.PageLoad,

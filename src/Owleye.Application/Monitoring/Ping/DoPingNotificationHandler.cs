@@ -12,13 +12,13 @@ using Owleye.Domain;
 
 namespace Owleye.Application.Handlers
 {
-    public class DoPingHandler : INotificationHandler<DoPingMessage>
+    public class DoPingNotificationHandler : INotificationHandler<DoPingNotification>
     {
         private readonly IMediator _mediator;
         private readonly IRedisCache _cache;
         private readonly IConfiguration _configuration;
 
-        public DoPingHandler(
+        public DoPingNotificationHandler(
             IMediator mediator,
             IRedisCache cache,
             IConfiguration configuration)
@@ -29,7 +29,7 @@ namespace Owleye.Application.Handlers
         }
 
 
-        public async Task Handle(DoPingMessage notification, CancellationToken cancellationToken)
+        public async Task Handle(DoPingNotification notification, CancellationToken cancellationToken)
         {
             var cacheKey = $"{notification.EndPointId}-{nameof(SensorType.Ping)}";
             var operation = await _cache.GetAsync<OngoingOperationDto>(cacheKey);
@@ -60,7 +60,7 @@ namespace Owleye.Application.Handlers
             }
             else
             {
-                await _mediator.Publish(new PingNotificationMessage
+                await _mediator.Publish(new PingResultNotification
                 {
                     IpAddress = notification.IpAddress,
                     EmailNotify = notification.EmailNotify,

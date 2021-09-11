@@ -10,21 +10,21 @@ using Owleye.Application.Services;
 
 namespace Owleye.Application.Handlers
 {
-    public class NotifyViaEmailHandler : INotificationHandler<NotifyViaEmailMessage>
+    public class NotifyViaEmailNotificationHandler : INotificationHandler<NotifyViaEmailNotification>
     {
         private readonly ILiteXEmailSender _emailSender;
-        private readonly ILogger<NotifyViaEmailHandler> _logger;
+        private readonly ILogger<NotifyViaEmailNotificationHandler> _logger;
         private readonly IConfiguration _configuration;
 
-        public NotifyViaEmailHandler(ILiteXEmailSender emailSender,
-            ILogger<NotifyViaEmailHandler> logger,
+        public NotifyViaEmailNotificationHandler(ILiteXEmailSender emailSender,
+            ILogger<NotifyViaEmailNotificationHandler> logger,
             IConfiguration configuration)
         {
             _emailSender = emailSender;
             _logger = logger;
             _configuration = configuration;
         }
-        public async Task Handle(NotifyViaEmailMessage notification, CancellationToken cancellationToken)
+        public async Task Handle(NotifyViaEmailNotification notification, CancellationToken cancellationToken)
         {
             var message = NotifyMessagePreparationService.Prepare(notification);
 

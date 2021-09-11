@@ -7,15 +7,15 @@ using Owleye.Application.Dto.Messages;
 
 namespace Owleye.Application.Handlers
 {
-    public class EndPointCheckHandler : INotificationHandler<EndPointCheckMessage>
+    public class EndPointsCheckNotificationHandler : INotificationHandler<EndPointsCheckNotification>
     {
         private readonly IMediator _mediator;
 
-        public EndPointCheckHandler(IMediator mediator)
+        public EndPointsCheckNotificationHandler(IMediator mediator)
         {
             _mediator = mediator;
         }
-        public async Task Handle(EndPointCheckMessage notification, CancellationToken cancellationToken)
+        public async Task Handle(EndPointsCheckNotification notification, CancellationToken cancellationToken)
         {
             var endPointList = notification.EndPointList;
 
@@ -29,7 +29,7 @@ namespace Owleye.Application.Handlers
                     case SensorType.Ping:
                         {
                             await _mediator.Publish(
-                                new DoPingMessage
+                                new DoPingNotification
                                 {
                                     IpAddress = sensor.EndPoint.IpAddress,
                                     MobileNotify = phoneList,
@@ -44,7 +44,7 @@ namespace Owleye.Application.Handlers
                     case SensorType.PageLoad:
                         {
                             await _mediator.Publish(
-                                new DoPageLoadMessage
+                                new DoPageLoadNotification
                                 {
                                     PageUrl = sensor.EndPoint.Url,
                                     MobileNotify = phoneList,

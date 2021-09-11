@@ -12,13 +12,13 @@ using Owleye.Domain;
 
 namespace Owleye.Application.Handlers
 {
-    public class DoPageLoadHandler : INotificationHandler<DoPageLoadMessage>
+    public class DoPageLoadNotificationHandler : INotificationHandler<DoPageLoadNotification>
     {
         private readonly IMediator _mediator;
         private readonly IRedisCache _cache;
         private readonly IConfiguration _configuration;
 
-        public DoPageLoadHandler(
+        public DoPageLoadNotificationHandler(
             IMediator mediator,
             IRedisCache cache,
             IConfiguration configuration)
@@ -29,7 +29,7 @@ namespace Owleye.Application.Handlers
         }
 
 
-        public async Task Handle(DoPageLoadMessage notification, CancellationToken cancellationToken)
+        public async Task Handle(DoPageLoadNotification notification, CancellationToken cancellationToken)
         {
             var cacheKey = $"{notification.EndPointId}-{nameof(SensorType.PageLoad)}";
             var operation = await _cache.GetAsync<OngoingOperationDto>(cacheKey);
@@ -62,7 +62,7 @@ namespace Owleye.Application.Handlers
             }
             else
             {
-                await _mediator.Publish(new PageLoadNotificationMessage
+                await _mediator.Publish(new PageLoadResultNotification
                 {
                     PageUrl = notification.PageUrl,
                     EmailNotify = notification.EmailNotify,

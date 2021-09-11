@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Owleye.Application.Dto.Messages
 {
-    public class DoPageLoadMessage : INotification
+    public class DoPingNotification : INotification
     {
         public int EndPointId { get; set; }
-        public string PageUrl { get; set; }
+        public string IpAddress { get; set; }
         public List<string> EmailNotify { get; set; }
         public List<string> MobileNotify { get; set; }
     }

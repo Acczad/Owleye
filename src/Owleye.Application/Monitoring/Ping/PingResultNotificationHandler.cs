@@ -10,17 +10,17 @@ using Owleye.Domain;
 
 namespace Owleye.Application.Handlers
 {
-    public class PingResultHandler : INotificationHandler<PingNotificationMessage>
+    public class PingResultNotificationHandler : INotificationHandler<PingResultNotification>
     {
         private readonly IMediator _mediator;
         private readonly IRedisCache _cache;
 
-        public PingResultHandler(IMediator mediator, IRedisCache cache)
+        public PingResultNotificationHandler(IMediator mediator, IRedisCache cache)
         {
             _mediator = mediator;
             _cache = cache;
         }
-        public async Task Handle(PingNotificationMessage notification, CancellationToken cancellationToken)
+        public async Task Handle(PingResultNotification notification, CancellationToken cancellationToken)
         {
             MonitoringHistoryDto history = null;
 
@@ -40,11 +40,11 @@ namespace Owleye.Application.Handlers
 
         }
 
-        private async Task Notify(PingNotificationMessage notification, CancellationToken cancellationToken)
+        private async Task Notify(PingResultNotification notification, CancellationToken cancellationToken)
         {
             if (notification.EmailNotify.IsNotNullOrEmpty())
             {
-                await _mediator.Publish(new NotifyViaEmailMessage
+                await _mediator.Publish(new NotifyViaEmailNotification
                 {
                     IpAddress = notification.IpAddress,
                     SensorType = SensorType.Ping,

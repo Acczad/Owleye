@@ -50,7 +50,7 @@ namespace Owleye.API
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IRedisCache, RedisCache>();
             services.AddTransient<IQrtzSchedule, QrtzSchedule>();
-            services.AddMediatR(typeof(DoPingHandler).Assembly);
+            services.AddMediatR(typeof(DoPingNotificationHandler).Assembly);
             services.AddMediatR(typeof(GetSensorsListQueryHandler).Assembly);
             services.AddLiteXSmtpEmail();
             services.AddEasyCaching(options =>

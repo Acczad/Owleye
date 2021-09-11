@@ -8,7 +8,7 @@ namespace Owleye.Application.Services
 {
     public static class NotifyMessagePreparationService
     {
-        public static string Prepare(NotifyViaEmailMessage message)
+        public static string Prepare(NotifyViaEmailNotification message)
         {
             var stringBuilder = new StringBuilder();
 
