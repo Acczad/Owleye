@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Owleye.Shared.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -18,6 +19,13 @@ namespace Owleye.Shared.Data
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             params Expression<Func<TEntity, dynamic>>[] includeProperties);
+
+        public  Task<QueryPagedResult<TEntity>> GetPagedAsync(
+            PagedQuery pagedQuery,
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            params Expression<Func<TEntity, dynamic>>[] includeProperties);
+
 
         Task<TEntity> FirstOrDefaultAsync(
             Expression<Func<TEntity, bool>> filter = null,

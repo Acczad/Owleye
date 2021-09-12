@@ -11,7 +11,7 @@ using Owleye.Shared.Model;
 
 namespace Owleye.Application.Sensors.Queries.GetSensorsList
 {
-    public class GetSensorsListQueryHandler : IRequestHandler<GetSensorsListQuery, QueryListResult<SensorDto>>
+    public class GetSensorsListQueryHandler : IRequestHandler<GetSensorsListPagedQuery, QueryPagedResult<SensorDto>>
     {
         private readonly IGenericRepository<Sensor> _sensorRepository;
         private readonly IMapper _mapper;
@@ -24,14 +24,21 @@ namespace Owleye.Application.Sensors.Queries.GetSensorsList
             _sensorRepository = sensorRepository;
             _mapper = mapper;
         }
-        async Task<QueryListResult<SensorDto>> IRequestHandler<GetSensorsListQuery, QueryListResult<SensorDto>>.Handle(GetSensorsListQuery request, CancellationToken cancellationToken)
+        async Task<QueryPagedResult<SensorDto>> IRequestHandler<GetSensorsListPagedQuery, QueryPagedResult<SensorDto>>.Handle(GetSensorsListPagedQuery request, CancellationToken cancellationToken)
         {
-            var result = (await _sensorRepository.GetAsync()).ToList();
+            var result = (await _sensorRepository
+                .GetPagedAsync(new PagedQuery(request.PageSize, request.PageNumber)));
 
-            var mapped = _mapper.Map<List<Sensor>, List<SensorDto>>(result);
+            var mapped = _mapper.Map<List<Sensor>, List<SensorDto>>(result.Data.ToList());
 
-            var rs = new QueryListResult<SensorDto>(mapped);
-
+            var rs = new QueryPagedResult<SensorDto>
+            {
+                Data=mapped,
+                Page=request.PageNumber,
+                PageCount= result.PageCount,
+                PageSize=result.PageSize
+            };
+                
             return rs;
 
         }

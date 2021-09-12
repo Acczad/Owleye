@@ -4,7 +4,7 @@ using Owleye.Shared.Model;
 
 namespace Owleye.Application.Sensors.Queries.GetSensorsList
 {
-    public class GetSensorsListQuery: IRequest<QueryListResult<SensorDto>>
+    public class GetSensorsListPagedQuery: PagedQuery,IRequest<QueryPagedResult<SensorDto>>
     {
 
     }

@@ -28,7 +28,7 @@ namespace Owleye.Application
             };
 
 
-            var sensors = await mediator.Send<QueryListResult<SensorDto>>(query);
+            var sensors = await mediator.Send<QueryPagedResult<SensorDto>>(query);
 
             await mediator.Publish(new EndPointsCheckNotification
             {

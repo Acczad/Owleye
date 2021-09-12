@@ -2,14 +2,18 @@
 
 namespace Owleye.Shared.Model
 {
-    public class QueryListResult<T>
+    public class QueryPagedResult<T> : PagedResultBase
     {
-        public QueryListResult(IEnumerable<T> data)
+        public QueryPagedResult(IEnumerable<T> data)
         {
             Data = data;
         }
+
+        public QueryPagedResult()
+        { 
+        }
+
         public IEnumerable<T> Data { get; set; }
-        public int Page { get; set; }
-        public int PageCount { get; set; }
+
     }
 }

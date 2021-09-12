@@ -31,17 +31,11 @@ namespace Owleye.API.Owleye.API.v1
             Tags = new[] { "sensor list" })
         ]
         [Authorize]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(GetSensorsListPagedQuery query)
         {
-            var query = new GetSensorsListQuery { };
-
             var result = await _mediator.Send(query);
-
             return Ok(result);
-
         }
-
-
 
     }
 }

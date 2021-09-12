@@ -13,7 +13,7 @@ using Owleye.Shared.Model;
 
 namespace Owleye.Application.Sensors.Queries.GetSensorsList
 {
-    public class GetSensorsListByIntervalQueryHandler : IRequestHandler<GetSensorsListByIntervalQuery, QueryListResult<SensorDto>>
+    public class GetSensorsListByIntervalQueryHandler : IRequestHandler<GetSensorsListByIntervalQuery, QueryPagedResult<SensorDto>>
     {
         private readonly IGenericRepository<Sensor> _sensorRepository;
         private readonly IMapper _mapper;
@@ -27,7 +27,7 @@ namespace Owleye.Application.Sensors.Queries.GetSensorsList
             _mapper = mapper;
         }
 
-        public async Task<QueryListResult<SensorDto>> Handle(GetSensorsListByIntervalQuery request, CancellationToken cancellationToken)
+        public async Task<QueryPagedResult<SensorDto>> Handle(GetSensorsListByIntervalQuery request, CancellationToken cancellationToken)
         {
             var includeProperties = new Expression<Func<Sensor, dynamic>>[2];
             includeProperties[0] = i => i.EndPoint;
@@ -39,7 +39,7 @@ namespace Owleye.Application.Sensors.Queries.GetSensorsList
 
             var result = _mapper.Map<List<Sensor>, List<SensorDto>>(endPointList);
 
-            return new QueryListResult<SensorDto>(result);
+            return new QueryPagedResult<SensorDto>(result);
         }
     }
 }
