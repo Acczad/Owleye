@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Owleye.Shared.Base;
 using Owleye.Shared.Data;
+using Owleye.Shared.Model;
 
 namespace Owleye.Infrastructure.Data
 {
@@ -117,6 +118,54 @@ namespace Owleye.Infrastructure.Data
                 : query;
         }
 
+
+        public async Task<QueryPagedResult<TEntity>> GetPagedAsync(
+            PagedQuery pagedQuery,
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            params Expression<Func<TEntity, dynamic>>[] includeProperties)
+        {
+            
+            IQueryable<TEntity> query = DbSet;
+
+            var queryResult = new List<TEntity>();
+            var pageNumber = pagedQuery.PageNumber;
+            var pageSize = pagedQuery.PageSize;
+            var rowCount = 0;
+
+            if (_appSession.Id.HasValue) { query = DbSet.Where(q => q.CreatedById == _appSession.Id.Value); }
+
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            query = includeProperties.Aggregate(query, (current, include) => current.Include(include));
+
+            if (orderBy != null)
+            {
+                queryResult = await orderBy(query).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync().ConfigureAwait(false);
+
+            }
+            else
+            {
+                queryResult = await query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync().ConfigureAwait(false);
+            }
+
+            rowCount = query.Count();
+
+            QueryPagedResult<TEntity> result = new QueryPagedResult<TEntity>
+            {
+                Page = pageNumber,
+                PageSize = pageSize,
+                Data = queryResult,
+                RowCount = rowCount,
+                PageCount = (int)Math.Ceiling((double)rowCount / pageSize)
+            };
+
+            return result;
+        }
+
         public TEntity GetById(object id)
         {
             return DbSet.Find(id);
@@ -160,6 +209,7 @@ namespace Owleye.Infrastructure.Data
         {
             return Context.SaveChanges();
         }
+
         public virtual Task<int> SaveChangesAsync()
         {
             return Context.SaveChangesAsync(true);

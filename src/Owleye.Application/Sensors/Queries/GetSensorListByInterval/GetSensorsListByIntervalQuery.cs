@@ -5,7 +5,7 @@ using Owleye.Shared.Model;
 
 namespace Owleye.Application.Sensors.Queries.GetSensorsList
 {
-    public class GetSensorsListByIntervalQuery : IRequest<QueryListResult<SensorDto>>
+    public class GetSensorsListByIntervalQuery : IRequest<QueryPagedResult<SensorDto>>
     {
         public SensorInterval SensorInterval { get; set; }
     }
