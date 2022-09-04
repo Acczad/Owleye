@@ -12,6 +12,6 @@ namespace Owleye.Application.Notifications.Messages
         public SensorType SensorType { get; set; }
         public List<string> EmailAddresses { get; set; }
         public bool IsServiceAlive { get; set; }
-        public DateTime LastAvailable { get; set; }
+        public DateTime? LastAvailable { get; set; }
     }
 }

@@ -7,9 +7,16 @@ namespace  Owleye.Domain
     public class Notification : BaseEntity
     {
         public int EndPointId { get; set; }
-        public string EmailAddress { get; set; }
-        public string PhoneNumber { get; set; }
+        public string NoTificationAddress { get; set; }
+        public NotificationType NotificationType { get; set; }
 
         public EndPoint EndPoint { get; set; }
+    }
+
+    public enum NotificationType
+    {
+        Sms=1,
+        Email=2,
+        Discord=3,
     }
 }

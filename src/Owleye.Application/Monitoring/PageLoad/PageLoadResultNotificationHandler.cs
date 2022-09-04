@@ -1,65 +1,66 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Extension.Methods;
 using MediatR;
 using Owleye.Shared.Cache;
 using Owleye.Application.Dto;
 using Owleye.Application.Notifications.Messages;
 using Owleye.Domain;
+using Owleye.Application.Monitoring.NotifyToUser;
 
 namespace Owleye.Application.Handlers
 {
     public class PageLoadResultNotificationHandler : INotificationHandler<PageLoadResultNotification>
     {
-        private readonly IMediator _mediator;
         private readonly IRedisCache _cache;
+        private readonly INotifyDispatcherService _notifyDispatcherService;
 
-        public PageLoadResultNotificationHandler(IMediator mediator, IRedisCache cache)
+        public PageLoadResultNotificationHandler(
+           IRedisCache cache, INotifyDispatcherService notifyDispatcherService)
         {
-            _mediator = mediator;
             _cache = cache;
+            _notifyDispatcherService = notifyDispatcherService;
         }
 
         public async Task Handle(PageLoadResultNotification notification, CancellationToken cancellationToken)
         {
-            MonitoringHistoryDto history = null;
+            MonitoringHistoryDto monitoringHistory = null;
 
             //TODO  extension
             var cacheKey =
                 $"{notification.EndPointId}-{nameof(SensorType.PageLoad)}-{DateTime.Now.ToString(@"yyyy-MM-dd")}";
 
-            history = await _cache.GetAsync<MonitoringHistoryDto>(cacheKey) ?? new MonitoringHistoryDto();
+            monitoringHistory = await _cache.GetAsync<MonitoringHistoryDto>(cacheKey) ?? new MonitoringHistoryDto();
 
-            notification.LastAvilable = history.GetLastAvailable();
+            notification.LastAvilable = monitoringHistory.GetLastTimeAvailable();
 
-            if (history.HasHistory() && history.LastStatus != notification.LoadSuccess)
+            // first check and down status
+            if (monitoringHistory.HasHistory() == false && notification.LoadSuccess == false)
             {
-                await Notify(notification, cancellationToken);
+                await _notifyDispatcherService.Notify(
+                    new NotifyInfo
+                    {
+                        endPointAddress = notification.PageUrl,
+                        notificationList = notification.NotificationList,
+                        sensorType = SensorType.PageLoad,
+                        sensorAvailability = notification.LoadSuccess
+                    });
             }
 
-            history.AddCheckEvent(DateTime.Now, notification.LoadSuccess);
-            await _cache.SetAsync(cacheKey, history);
-        }
-
-        private async Task Notify(PageLoadResultNotification notification, CancellationToken cancellationToken)
-        {
-            if (notification.EmailNotify.IsNotNullOrEmpty())
+            // change status in endpoint status
+            if (monitoringHistory.HasHistory() && monitoringHistory.LastStatus != notification.LoadSuccess)
             {
-                await _mediator.Publish(new NotifyViaEmailNotification
+                await _notifyDispatcherService.Notify(new NotifyInfo
                 {
-                    ServiceUrl = notification.PageUrl,
-                    SensorType = SensorType.PageLoad,
-                    EmailAddresses = notification.EmailNotify,
-                    IsServiceAlive = notification.LoadSuccess,
-                    LastAvailable = notification.LastAvilable
-                }, cancellationToken);
+                    endPointAddress = notification.PageUrl,
+                    notificationList = notification.NotificationList,
+                    sensorType = SensorType.PageLoad,
+                    sensorAvailability = notification.LoadSuccess
+                });
             }
 
-            if (notification.MobileNotify.IsNotNullOrEmpty())
-            {
-                //todo notify via sms.
-            }
+            monitoringHistory.AddCheckEvent(DateTime.Now, notification.LoadSuccess);
+            await _cache.SetAsync(cacheKey, monitoringHistory);
         }
     }
 }

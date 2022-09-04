@@ -10,8 +10,8 @@ namespace Owleye.Infrastructure.Data.ModelMapping
         {
             builder.HasKey(t => t.Id);
 
-            builder.Property(t => t.EmailAddress).HasMaxLength(200);
-            builder.Property(t => t.PhoneNumber).HasMaxLength(20);
+            builder.Property(t => t.NoTificationAddress).HasMaxLength(2048);
+            builder.Property(t => t.NotificationType);
         }
     }
 }

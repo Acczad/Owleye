@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.12" />
+    <PackageReference Include="EasyCaching.Redis" Version="1.4.0" />
+    <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.4.0" />
+    <PackageReference Include="LiteX.Email" Version="8.1.0" />
+    <PackageReference Include="LiteX.Email.Core" Version="8.1.0" />
+    <PackageReference Include="MediatR" Version="8.0.2" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Owleye.Application\Owleye.Application.csproj" />
+    <ProjectReference Include="..\Owleye.Domain\Owleye.Domain.csproj" />
+    <ProjectReference Include="..\Owleye.Infrastructure\Owleye.Infrastructure.csproj" />
+    <ProjectReference Include="..\Owleye.Shared\Owleye.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
