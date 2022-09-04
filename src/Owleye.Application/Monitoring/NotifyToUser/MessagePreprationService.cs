@@ -56,7 +56,7 @@ namespace Owleye.Application.Services
                                     stringBuilder.Append(
                                         $"{SensorType.PageLoad.AsString(EnumFormat.Description)} for url {message.ServiceUrl} available." + "<br/>");
                                     stringBuilder.Append(
-                                       $"{SensorType.PageLoad.AsString(EnumFormat.Description)} was unavailable for {Convert.ToInt32((DateTime.Now - message.LastAvailable).TotalMinutes.ToString())} minutes." + "<br/>");
+                                       $"{SensorType.PageLoad.AsString(EnumFormat.Description)} was unavailable for {Convert.ToInt32((DateTime.Now - message.LastAvailable).GetValueOrDefault().TotalMinutes.ToString())} minutes." + "<br/>");
                                     break;
                                 }
                         }

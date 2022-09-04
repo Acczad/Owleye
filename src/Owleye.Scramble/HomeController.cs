@@ -31,16 +31,6 @@ namespace Owleye.Scramble
             if (Shared.Util.WebSiteUtil.IsUrlAlive(url, 10000))
                 return Redirect(url);
 
-            await mediator.Publish(
-                               new DoPageLoadNotification
-                               {
-                                   PageUrl = url,
-                                   MobileNotify = null,
-                                   EndPointId = 0,
-                                   EmailNotify = emailList,
-                               }
-                           );
-
             return View();
         }
     }

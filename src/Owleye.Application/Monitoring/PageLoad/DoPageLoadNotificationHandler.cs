@@ -28,7 +28,6 @@ namespace Owleye.Application.Handlers
             _configuration = configuration;
         }
 
-
         public async Task Handle(DoPageLoadNotification notification, CancellationToken cancellationToken)
         {
             var cacheKey = $"{notification.EndPointId}-{nameof(SensorType.PageLoad)}";
@@ -40,10 +39,9 @@ namespace Owleye.Application.Handlers
                 if ((DateTime.Now - operation.StartDate).TotalMinutes <= 1)
                     return;
             }
-            else
-            {
-                await _cache.SetAsync(cacheKey, new OngoingOperationDto(DateTime.Now));
-            }
+
+
+            await _cache.SetAsync(cacheKey, new OngoingOperationDto(DateTime.Now));
 
             var networkavailability = true;
 
@@ -62,12 +60,11 @@ namespace Owleye.Application.Handlers
             }
             else
             {
-                await _mediator.Publish(new PageLoadResultNotification
+                _mediator.Publish(new PageLoadResultNotification
                 {
                     PageUrl = notification.PageUrl,
-                    EmailNotify = notification.EmailNotify,
                     EndPointId = notification.EndPointId,
-                    MobileNotify = notification.MobileNotify,
+                    NotificationList = notification.NotificationList,
                     LoadSuccess = urlResult
                 }, cancellationToken);
 

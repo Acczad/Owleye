@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Owleye.Domain;
 
 namespace Owleye.Application.Sensors.Queries.GetSensorsList
 {
     public class NotificationDto
     {
         public int EndPointId { get; set; }
-        public string EmailAddress { get; set; }
-        public string PhoneNumber { get; set; }
-
+        public string NoTificationAddress { get; set; }
+        public NotificationType NotificationType { get; set; }
     }
 }

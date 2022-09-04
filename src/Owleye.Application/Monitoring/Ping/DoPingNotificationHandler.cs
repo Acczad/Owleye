@@ -63,9 +63,8 @@ namespace Owleye.Application.Handlers
                 await _mediator.Publish(new PingResultNotification
                 {
                     IpAddress = notification.IpAddress,
-                    EmailNotify = notification.EmailNotify,
                     EndPointId = notification.EndPointId,
-                    MobileNotify = notification.MobileNotify,
+                    NotificationList=notification.NotificationList,  
                     PingSuccess = pingResult
                 }, cancellationToken);
 

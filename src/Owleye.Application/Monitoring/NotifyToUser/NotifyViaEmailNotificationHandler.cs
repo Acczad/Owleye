@@ -44,7 +44,6 @@ namespace Owleye.Application.Handlers
             from, fromName,
             mainEmailAddress,
             toName, bcc: bccAddresses, cancellationToken: cancellationToken);
-
         }
     }
 }

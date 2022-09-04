@@ -186,8 +186,6 @@ namespace Owleye.API
             var serviceScope = app.ApplicationServices.
                 GetRequiredService<IServiceScopeFactory>().CreateScope();
             ServiceLocator.Init(serviceScope.ServiceProvider);
-
-            QuartzBootStrap.Boot();
         }
 
         public class ValidatorActionFilter : IActionFilter

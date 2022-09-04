@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="AutoMapper" Version="10.1.1" />
+	  <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+	  <PackageReference Include="EasyCaching.Redis" Version="1.4.0" />
+	  <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.4.0" />
+	  <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.0" />
+	  <PackageReference Include="MediatR" Version="8.0.2" />
+	  <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.6" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Owleye.Application\Owleye.Application.csproj" />
+    <ProjectReference Include="..\Owleye.Domain\Owleye.Domain.csproj" />
+    <ProjectReference Include="..\Owleye.Infrastructure\Owleye.Infrastructure.csproj" />
+    <ProjectReference Include="..\Owleye.Shared\Owleye.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

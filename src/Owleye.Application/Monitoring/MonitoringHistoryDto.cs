@@ -35,7 +35,7 @@ namespace Owleye.Application.Dto
             return TimeHistories.Any();
         }
 
-        public DateTime GetLastAvailable()
+        public DateTime GetLastTimeAvailable()
         {
             var lastAvail = TimeHistories.Where(q => q.IsAlive).OrderByDescending(q => q.CheckedTime).FirstOrDefault();
             return lastAvail != null ? lastAvail.CheckedTime : DateTime.Now;

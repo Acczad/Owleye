@@ -17,12 +17,13 @@ namespace Owleye.Application.Handlers
         }
         public async Task Handle(EndPointsCheckNotification notification, CancellationToken cancellationToken)
         {
-            var endPointList = notification.EndPointList;
+            var sensorList = notification.Sensors;
 
-            foreach (var sensor in endPointList)
+            foreach (var sensor in sensorList)
             {
-                var phoneList = sensor.EndPoint.Notification.Select(q => q.PhoneNumber).ToList();
-                var emailList = sensor.EndPoint.Notification.Select(q => q.EmailAddress).ToList();
+                var notifList = sensor.EndPoint.Notification
+                    .GroupBy(g=>g.NotificationType)
+                    .ToDictionary(q => q.Key ,q=>q.ToList().Select(q=>q.NoTificationAddress).ToList());
 
                 switch (sensor.SensorType)
                 {
@@ -32,34 +33,25 @@ namespace Owleye.Application.Handlers
                                 new DoPingNotification
                                 {
                                     IpAddress = sensor.EndPoint.IpAddress,
-                                    MobileNotify = phoneList,
                                     EndPointId = sensor.EndPointId,
-                                    EmailNotify = emailList
-                                }
-                            );
-
+                                    NotificationList= notifList
+                                });
                             break;
                         }
-
                     case SensorType.PageLoad:
                         {
                             await _mediator.Publish(
                                 new DoPageLoadNotification
                                 {
                                     PageUrl = sensor.EndPoint.Url,
-                                    MobileNotify = phoneList,
+                                    NotificationList= notifList,
                                     EndPointId = sensor.EndPointId,
-                                    EmailNotify = emailList,
-                                }
-                            );
+                                });
 
                             break;
                         }
                 }
-
             }
         }
-
-
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Extension.Methods;
 using MediatR;
 using Owleye.Shared.Cache;
 using Owleye.Application.Dto;
 using Owleye.Application.Notifications.Messages;
 using Owleye.Domain;
+using Owleye.Application.Monitoring.NotifyToUser;
 
 namespace Owleye.Application.Handlers
 {
@@ -14,11 +14,14 @@ namespace Owleye.Application.Handlers
     {
         private readonly IMediator _mediator;
         private readonly IRedisCache _cache;
+        private readonly INotifyDispatcherService _notifyDispatcherService;
 
-        public PingResultNotificationHandler(IMediator mediator, IRedisCache cache)
+        public PingResultNotificationHandler(
+            IMediator mediator, IRedisCache cache, INotifyDispatcherService notifyDispatcherService)
         {
             _mediator = mediator;
             _cache = cache;
+            _notifyDispatcherService = notifyDispatcherService;
         }
         public async Task Handle(PingResultNotification notification, CancellationToken cancellationToken)
         {
@@ -32,31 +35,18 @@ namespace Owleye.Application.Handlers
 
             if (history.LastStatus != notification.PingSuccess)
             {
-                await Notify(notification, cancellationToken);
+                await _notifyDispatcherService.Notify(
+                    new NotifyInfo
+                    {
+                        endPointAddress = notification.IpAddress,
+                        notificationList = notification.NotificationList,
+                        sensorType = SensorType.Ping,
+                        sensorAvailability = notification.PingSuccess
+                    });
             }
 
             history.AddCheckEvent(DateTime.Now, notification.PingSuccess);
             await _cache.SetAsync(cacheKey, history);
-
-        }
-
-        private async Task Notify(PingResultNotification notification, CancellationToken cancellationToken)
-        {
-            if (notification.EmailNotify.IsNotNullOrEmpty())
-            {
-                await _mediator.Publish(new NotifyViaEmailNotification
-                {
-                    IpAddress = notification.IpAddress,
-                    SensorType = SensorType.Ping,
-                    EmailAddresses = notification.EmailNotify,
-                    IsServiceAlive = notification.PingSuccess
-                }, cancellationToken);
-            }
-
-            if (notification.MobileNotify.IsNotNullOrEmpty())
-            {
-                //todo notify via sms.
-            }
         }
     }
 }

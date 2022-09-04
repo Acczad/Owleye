@@ -6,8 +6,9 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="CSharpDiscordWebhook.NET" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.6" />
-    <PackageReference Include="Quartz" Version="3.0.7" />
+    <PackageReference Include="Quartz" Version="3.4.0" />
     <PackageReference Include="Enums.NET" Version="3.0.3" />
     <PackageReference Include="LiteX.Email.Core" Version="8.1.0" />
     <PackageReference Include="MediatR" Version="8.0.2" />
