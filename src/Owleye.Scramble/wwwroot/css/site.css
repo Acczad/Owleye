@@ -1,71 +1,395 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿html {
+    height: 100%;
+    overflow-y: scroll;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+@font-face {
+    font-family: 'Vazir';
+    src: url('/fonts/Vazir.eot?#') format('eot'), url('/fonts/Vazir.woff') format('woff'), url('/fonts/Vazir.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    margin: 0px;
+    padding: 0px;
+    background-color: #f3f3f3;
+    text-align: center;
+    height: 100%;
+    background: #f5f5f5;
+    direction: rtl;
+    font-family: Vazir,Tahoma,Arial;
+    font-size: 13px;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+form {
+    margin: 0px;
+    padding: 0px;
+}
+
+img {
+    max-width: 100%;
+}
+
+hr {
+    border-top: 1px solid #C0C0C0;
+    color: white;
+}
+
+
+mark {
+    background: #f9f9f9;
+    border-right: 5px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0px 10px 0px;
+    display: block;
+}
+
+
+a:link {
+    color: #0288d1;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #0288d1;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #01579b;
+    text-decoration: none;
+}
+
+
+#header {
+    background-color: #fff;
+    text-align: left;
+    padding: 15px 0px 10px 10px;
+}
+
+    #header img {
+        border: 0px;
+    }
+
+    #header .right {
+        float: right;
+        width: 49%;
+        text-align: right;
+        height: 30px;
+        vertical-align: middle
+    }
+
+    #header .left {
+        float: left;
+        width: 49%;
+        text-align: left
+    }
+
+#wrapper {
+    text-align: center;
+    margin: 0 auto;
+}
+#wrapper .backbar {
+        background: #93959c;
+        height: 200px;
+        background: #93959c url('/static/images/backpattern.png') repeat-x;
+    }
+
+#container {
+    width: 95%;
+    max-width: 970px;
+    background: #fff;
+    min-height: 300px;
+    margin: 0 auto;
+    margin-top: -150px;
+    border-radius: 7px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.02), 0px 5px 22px -8px rgba(0,0,0,0.1);
+    text-align: right;
+    direction: rtl;
+    padding: 5px;
+}
+
+    #container .headbox {
+        padding: 5px 5px 5px 5px;
+    }
+
+        #container .headbox h1 {
+            border-bottom: 1px solid #E4E4F1;
+            font-family: Vazir,Arial,Tahoma;
+            font-size: 15px;
+            font-weight: normal;
+            padding: 0px 2px 5px 2px;
+            color: #0B99E5;
+        }
+
+
+
+#footer {
+    margin: 10px 0px 15px 0px;
+    text-align: center;
+    display: block;
+    direction: rtl;
+}
+
+
+    #footer ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    #footer li {
+        list-style: none;
+        display: inline-block;
+        padding: 0px 0px 15px 0px;
+        text-align: center;
+    }
+
+    #footer a {
+        font-family: Vazir;
+        font-size: 13px;
+    }
+
+    #footer li:after {
+        content: "/";
+        padding-right: 5px;
+        padding-left: 5px;
+        color: gray;
+    }
+
+    #footer .lilast:after {
+        content: "";
+        padding-right: 0px;
+        padding-left: 0px;
+    }
+
+#content {
+    padding: 0px 12px 5px 12px;
+    font-family: Vazir,Tahoma,Arial;
+    font-size: 16px;
+    direction: rtl;
+    line-height: 30px;
+}
+
+h2, h3 {
+    padding: 0px;
+    margin: 0px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+.rtl {
+    direction: rtl;
+}
+
+.ltr {
+    direction: ltr;
+}
+
+.clear {
+    clear: both;
+    padding: 0;
+    margin: 0;
+}
+
+.btn {
+    background-color: #2196f3;
+    color: white;
+    border: 0px;
+    padding: 10px 10px 10px 10px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
+    font-family: Vazir,Tahoma,Arial;
+    font-size: 13px;
+    direction: rtl;
+}
+
+    .btn:hover {
+        background-color: #1976d2;
+    }
+
+.textbox, .textarea {
+    box-sizing: border-box;
+    border: 1px solid #e7e7e7;
+    padding: 9px 7px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -o-border-radius: 5px;
+    -ms-border-radius: 5px;
+    font-family: Vazir,Tahoma,Arial;
+    font-size: 13px;
+    direction: rtl;
+}
+
+    .textbox:focus, .textarea:focus {
+        border: 1px solid #5788FA;
+    }
+
+
+.txten {
+    font-family: Tahoma,Arial;
+    font-size: 13px;
+    direction: ltr;
+}
+
+.s {
+    color: red;
+    font-weight: bold;
+}
+
+.warning {
+    font-size: 11px;
+}
+
+    .warning span {
+        background-color: #FCEEEE;
+        color: #E2595B;
+        border-right: 2px solid #E2595B;
+        margin: 2px 0px 2px 0px;
+        padding: 3px 5px 3px 3px;
+        display: inline-block;
+    }
+
+.warningfull {
+    font-size: 11px;
+}
+
+    .warningfull div {
+        background-color: #FCEEEE;
+        width: 100%;
+        margin: 2px 0px 2px 0px;
+    }
+
+    .warningfull i {
+        color: #E2595B;
+        font-style: normal;
+        border-right: 2px solid #E2595B;
+        padding: 2px 5px 2px 2px;
+        display: inline-block;
+    }
+
+.ull {
+    line-height: 150%;
+    color: red;
+    columns: 2;
+    -webkit-columns: 2;
+    -moz-columns: 2;
+}
+
+    .ull .ds {
+        FONT-SIZE: 13px;
+        color: black;
+        display: block;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .ull .ur {
+        color: Gray;
+        text-direction: ltr;
+        font-family: Arial;
+        font-size: 12px;
+        display: block;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .ull .au {
+        color: Gray;
+        text-direction: rtl;
+        FONT-SIZE: 13px;
+        display: block;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .ull li {
+        margin-bottom: 15px;
+    }
+
+    .ull .sm {
+        color: gray;
+        display: block;
+        margin: 0px;
+        padding: 0px;
+        font-size: 14px;
+    }
+
+    .ull .bt {
+        color: green;
+        text-direction: rtl;
+        float: right;
+        padding-left: 10px;
+    }
+
+    .ull .bl {
+        color: gray;
+        text-direction: ltr;
+        direction: ltr;
+        float: right;
+        display: inline-block;
+        font-size: 12px;
+    }
+
+    .ull .bll {
+        color: gray;
+        text-decoration: none;
+    }
+
+    .ull .bh {
+        display: block;
+        text-direction: ltr;
+        padding-bottom: 25px;
+    }
+
+    .ull .c {
+        clear: both;
+        display: block;
+    }
+
+    .ull li {
+        margin-bottom: 15px;
+    }
+
+h2 {
+    margin-bottom: 5px;
+}
+
+.siteicon {
+    width: 37px;
+    height: 35px;
+}
+
+@media screen and (max-width: 800px) {
+    #container {
+        width: 90%;
+        margin-top: -290px;
+        border-radius: 5px;
+    }
+
+    input {
+        max-width: 100%;
+    }
+
+    #menutoggle {
+        display: inline-block;
+    }
+
+    .menuhide, .menushow {
+        display: block;
+    }
+
+    .ull {
+        columns: 1;
+        -webkit-columns: 1;
+        -moz-columns: 1;
+    }
 }
