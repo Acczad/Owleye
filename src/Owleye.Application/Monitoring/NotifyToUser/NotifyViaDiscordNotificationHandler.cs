@@ -58,7 +58,7 @@ namespace Owleye.Application.Handlers
             };
             embed.Author = new EmbedAuthor
             {
-                Name = "Owleye Monitoring",
+                Name = $"Owleye {endpointName } {availability.ToString()}",
                 IconUrl =  Configuration["DiscordNotify:IconUrl"]
             };
             embed.Color = availability == true ? Color.YellowGreen : Color.Red;
