@@ -22,8 +22,8 @@ namespace Owleye.Application.Handlers
             foreach (var sensor in sensorList)
             {
                 var notifList = sensor.EndPoint.Notification
-                    .GroupBy(g=>g.NotificationType)
-                    .ToDictionary(q => q.Key ,q=>q.ToList().Select(q=>q.NoTificationAddress).ToList());
+                    .GroupBy(g => g.NotificationType)
+                    .ToDictionary(q => q.Key, q => q.ToList().Select(q => q.NoTificationAddress).ToList());
 
                 switch (sensor.SensorType)
                 {
@@ -44,6 +44,18 @@ namespace Owleye.Application.Handlers
                                 new DoPageLoadNotification
                                 {
                                     PageUrl = sensor.EndPoint.Url,
+                                    NotificationList= notifList,
+                                    EndPointId = sensor.EndPointId,
+                                });
+
+                            break;
+                        }
+                    case SensorType.PortCheck:
+                        {
+                            await _mediator.Publish(
+                                new DoPortCheckNotification
+                                {
+                                    IpAddress = sensor.EndPoint.IpAddress,
                                     NotificationList= notifList,
                                     EndPointId = sensor.EndPointId,
                                 });

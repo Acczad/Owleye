@@ -55,9 +55,27 @@ namespace Owleye.Application.Monitoring.NotifyToUser
                 });
             }
 
+            if (notifyInfo.notificationList.ContainsKey(NotificationType.Console))
+            {
+                await _mediator.Publish(new NotifyViaConsoleNotification
+                {
+                    ServiceUrl = notifyInfo.endPointAddress,
+                    SensorType = notifyInfo.sensorType,
+                    IsServiceAlive = notifyInfo.sensorAvailability,
+                    LastAvailable = notifyInfo.lastAvailable
+                });
+            }
+
             if (notifyInfo.notificationList.ContainsKey(NotificationType.Sms))
             {
-                //todo notify via sms.
+                await _mediator.Publish(new NotifyViaSmsNotification
+                {
+                    ServiceUrl = notifyInfo.endPointAddress,
+                    SensorType = notifyInfo.sensorType,
+                    PhoneNumbers = notifyInfo.notificationList[NotificationType.Sms],
+                    IsServiceAlive = notifyInfo.sensorAvailability,
+                    LastAvailable = notifyInfo.lastAvailable
+                });
             }
 
             if (notifyInfo.notificationList.ContainsKey(NotificationType.Discord))
@@ -67,6 +85,18 @@ namespace Owleye.Application.Monitoring.NotifyToUser
                     ServiceUrl = notifyInfo.endPointAddress,
                     SensorType = notifyInfo.sensorType,
                     DiscordHookApis = notifyInfo.notificationList[NotificationType.Discord],
+                    IsServiceAlive = notifyInfo.sensorAvailability,
+                    LastAvailable = notifyInfo.lastAvailable
+                });
+            }
+
+            if (notifyInfo.notificationList.ContainsKey(NotificationType.MicrosoftTeam))
+            {
+                await _mediator.Publish(new NotifyViaMicrosoftTeamNotification
+                {
+                    ServiceUrl = notifyInfo.endPointAddress,
+                    SensorType = notifyInfo.sensorType,
+                    EmailAddresses = notifyInfo.notificationList[NotificationType.MicrosoftTeam],
                     IsServiceAlive = notifyInfo.sensorAvailability,
                     LastAvailable = notifyInfo.lastAvailable
                 });
