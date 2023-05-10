@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Sensors\Command\**" />
+    <EmbeddedResource Remove="Sensors\Command\**" />
+    <None Remove="Sensors\Command\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="CSharpDiscordWebhook.NET" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.6" />
@@ -15,10 +21,6 @@
     <PackageReference Include="Dawn.Guard" Version="1.12.0" />
     <PackageReference Include="Extension.Methods" Version="0.2.0" />
     
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Sensors\Command\" />
   </ItemGroup>
 
   <ItemGroup>

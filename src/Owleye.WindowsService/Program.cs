@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Owleye.Application;
+using Owleye.Application.Dto.Messages;
 using Owleye.Application.Handlers;
 using Owleye.Application.Monitoring.NotifyToUser;
 using Owleye.Application.Sensors.Queries.GetSensorsList;

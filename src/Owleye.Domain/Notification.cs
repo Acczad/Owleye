@@ -1,7 +1,7 @@
 ﻿using Owleye.Shared.Data;
 using System;
 
-namespace  Owleye.Domain
+namespace Owleye.Domain
 {
     [Serializable]
     public class Notification : BaseEntity
@@ -15,8 +15,10 @@ namespace  Owleye.Domain
 
     public enum NotificationType
     {
-        Sms=1,
-        Email=2,
-        Discord=3,
+        Sms = 1,
+        Email = 2,
+        Discord = 3,
+        Console = 4,
+        MicrosoftTeam = 5
     }
 }

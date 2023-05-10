@@ -8,6 +8,8 @@ namespace Owleye.Domain
         Ping = 0,
         DnsCheck = 1,
         [Description("PageLoad")]
-        PageLoad = 2
+        PageLoad = 2,
+        [Description("PortCheck")]
+        PortCheck = 3
     }
 }
