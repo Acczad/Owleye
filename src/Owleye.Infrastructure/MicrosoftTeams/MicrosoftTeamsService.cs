@@ -44,7 +44,7 @@ namespace Owleye.Infrastructure.MicrosoftTeams
         }
         private async Task<string> GetTeamsUserIdByEmailAsync(string email)
         {
-            var token = await CheckAndGetToken();
+            var token = await CheckAndGetTokenAsync();
             if (token.IsNullOrEmpty()) throw new Exception("MicrosoftTeams User Not logged-in");
 
             var url = GetFullUrl($"/users?$filter=startsWith(mail,'{email.ToLower()}')");
@@ -66,7 +66,7 @@ namespace Owleye.Infrastructure.MicrosoftTeams
         }
         private async Task<string> CreateTeamsChatAsync(SendTeamsUsersMessageRequest request, string topic, string senderUserId = "")
         {
-            var token = await CheckAndGetToken();
+            var token = await CheckAndGetTokenAsync();
 
             string url = GetFullUrl("/chats");
 
@@ -89,7 +89,7 @@ namespace Owleye.Infrastructure.MicrosoftTeams
 
 
             var newChatRequstData = new MicrosoftTeamsConversation(chatType, topic, _baseUrl, userIds);
-            var newChatResultData = await CallHttpAsJsonCall<GraphCreateChatResult>(newChatRequstData,url, token);
+            var newChatResultData = await PostAsJsonAsync<GraphCreateChatResult>(newChatRequstData,url, token);
             if (newChatResultData.Id.IsNotNullOrEmpty())
             {
                 return newChatResultData.Id;
@@ -108,7 +108,7 @@ namespace Owleye.Infrastructure.MicrosoftTeams
             var cachedMe = await GetMeFromCacheAsync();
             if (cachedMe != null) return cachedMe;
 
-            var token = await GetCurrentToken();
+            var token = await GetCurrentTokenAsync();
             if (token.IsNullOrEmpty()) return null;
 
             var url = GetFullUrl($"/me");
