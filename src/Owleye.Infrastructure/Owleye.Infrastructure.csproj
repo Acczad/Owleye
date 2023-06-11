@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.6" />
     <PackageReference Include="CSharpDiscordWebhook.NET" Version="1.0.0" />
     <PackageReference Include="EasyCaching.Core" Version="1.4.0" />
     <PackageReference Include="Quartz" Version="3.4.0" />
