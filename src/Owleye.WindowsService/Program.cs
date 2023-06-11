@@ -12,11 +12,13 @@ using Owleye.Application.Sensors.Queries.GetSensorsList;
 using Owleye.Infrastructure.Cache;
 using Owleye.Infrastructure.Data;
 using Owleye.Infrastructure.MappingConfiguration;
+using Owleye.Infrastructure.MicrosoftTeams;
 using Owleye.Infrastructure.Quartz;
 using Owleye.Infrastructure.Service;
 using Owleye.Shared.Base;
 using Owleye.Shared.Cache;
 using Owleye.Shared.Data;
+using Owleye.Shared.MicrosoftTeams;
 using System;
 
 namespace Owleye.WindowsService
@@ -50,6 +52,7 @@ namespace Owleye.WindowsService
                     services.AddTransient<INotifyDispatcherService, NotifyDispatcherService>();
                     services.AddTransient<IRedisCache, RedisCache>();
                     services.AddTransient<IQrtzSchedule, QrtzSchedule>();
+                    services.AddTransient<IMicrosoftTeamsService, MicrosoftTeamsService>();
                     services.AddMediatR(typeof(DoPingNotificationHandler).Assembly);
                     services.AddMediatR(typeof(GetSensorsListQueryHandler).Assembly);
 

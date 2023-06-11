@@ -30,6 +30,8 @@ using Microsoft.AspNetCore.Http;
 using Owleye.Shared.Base;
 using Owleye.Infrastructure.MappingConfiguration;
 using Owleye.Application.Sensors.Queries.GetSensorsList;
+using Owleye.Infrastructure.MicrosoftTeams;
+using Owleye.Shared.MicrosoftTeams;
 
 namespace Owleye.API
 {
@@ -50,6 +52,7 @@ namespace Owleye.API
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IRedisCache, RedisCache>();
             services.AddTransient<IQrtzSchedule, QrtzSchedule>();
+            services.AddTransient<IMicrosoftTeamsService, MicrosoftTeamsService>();
             services.AddMediatR(typeof(DoPingNotificationHandler).Assembly);
             services.AddMediatR(typeof(GetSensorsListQueryHandler).Assembly);
             services.AddLiteXSmtpEmail();
