@@ -11,7 +11,7 @@ namespace Owleye.Shared.Util
             {
                 var request = WebRequest.Create(url) as HttpWebRequest;
                 request.Timeout = urlTimeout;
-                request.Method = "HEAD"; // TODO fix this, head maybe disallowed in some situations
+                request.Method = "GET"; // TODO fix this, head maybe disallowed in some situations
 
                 if (request.GetResponse() is HttpWebResponse response)
                 {

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using EasyCaching.Core;
 using Microsoft.Extensions.Configuration;
 using Owleye.Shared.Cache;
+using Quartz.Impl.AdoJobStore.Common;
 
 namespace Owleye.Infrastructure.Cache
 {
@@ -18,23 +19,26 @@ namespace Owleye.Infrastructure.Cache
             _distributedCache = distributedCache;
             _configuration = configuration;
         }
-        public async Task SetAsync<T>(string key, T objectToCache)
+        public async Task SetAsync<T>(string key, T objectToCache, int? expireTimeInSecond = null)
         {
             // TODO refactor this.
             var provider = _distributedCache.GetCachingProvider(_configuration["General:RedisInstanceName"]);
 
-            await provider.SetAsync(key, objectToCache, TimeSpan.FromDays(90));
+            if (!expireTimeInSecond.HasValue)
+                await provider.SetAsync(key, objectToCache, TimeSpan.FromDays(120));
+
+            else await provider.SetAsync(key, objectToCache, TimeSpan.FromSeconds(expireTimeInSecond.Value));
 
         }
 
         public async Task Remove(string key)
         {
-            throw new NotImplementedException();
+            var provider = _distributedCache.GetCachingProvider(_configuration["General:RedisInstanceName"]);
+            await provider.RemoveAsync(key);
         }
 
         public async Task<T> GetAsync<T>(string key)
         {
-
             // TODO refactor this.
             var provider = _distributedCache.GetCachingProvider(_configuration["General:RedisInstanceName"]);
 

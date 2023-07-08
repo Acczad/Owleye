@@ -37,6 +37,11 @@ namespace Owleye.Application.Sensors.Queries.GetSensorsList
                 .GetAsync(filter: q => q.SensorInterval == request.SensorInterval,
                     includeProperties: includeProperties)).ToList();
 
+            if (endPointList==null || endPointList.Count < 0)
+            {
+                return new QueryPagedResult<SensorDto>();
+            }
+
             var result = _mapper.Map<List<Sensor>, List<SensorDto>>(endPointList);
 
             return new QueryPagedResult<SensorDto>(result);

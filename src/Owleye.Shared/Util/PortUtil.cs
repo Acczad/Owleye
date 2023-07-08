@@ -1,26 +1,30 @@
-﻿using System;
+﻿using DrHouse.Core;
+using DrHouse.Telnet;
+using System;
 using System.Linq;
-using System.Net.Sockets;
 
 namespace Owleye.Shared.Util
 {
     public static class PortUtil
     {
+        static HealthChecker healthChecker;
+        static PortUtil()
+        {
+            healthChecker = new HealthChecker("Owleye");
+        }
+
         public static bool IsPortAlive(string hostFullAddress, int timeout)
         {
             try
             {
                 var host = GetHostAddress(hostFullAddress);
                 var port = GetPort(hostFullAddress);
-                if (host == null || port==null) return false;
 
-                using (var client = new TcpClient())
-                {
-                    var result = client.BeginConnect(host, port.Value, null, null);
-                    var success = result.AsyncWaitHandle.WaitOne(timeout);
-                    client.EndConnect(result);
-                    return success;
-                }
+                TelnetHealthDependency telnetDep = new TelnetHealthDependency(host, port.Value, hostFullAddress);
+                healthChecker.AddDependency(telnetDep);
+
+                HealthData health = healthChecker.CheckHealth();
+                return health.IsOK;
             }
             catch
             {

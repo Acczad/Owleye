@@ -13,6 +13,7 @@ namespace Owleye.Application.Notifications.Messages
         public Dictionary<NotificationType, List<string>> NotificationList { get; set; }
         public bool LoadSuccess { get; set; }
         public DateTime LastAvilable { get; set; }
+        public string Name { get; set; }
     }
 
 }

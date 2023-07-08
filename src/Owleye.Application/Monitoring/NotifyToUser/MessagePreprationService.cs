@@ -27,10 +27,10 @@ namespace Owleye.Application.Services
                                     break;
                                 }
 
-                            case SensorType.PageLoad:
+                            case SensorType.HttpRequestGet:
                                 {
                                     stringBuilder.Append(
-                                        $"{SensorType.PageLoad.AsString(EnumFormat.Description)} for url {message.ServiceUrl} failed." + "<br/>");
+                                        $"{SensorType.HttpRequestGet.AsString(EnumFormat.Description)} for url {message.ServiceUrl} failed." + "<br/>");
                                     break;
                                 }
                         }
@@ -51,12 +51,12 @@ namespace Owleye.Application.Services
                                     break;
                                 }
 
-                            case SensorType.PageLoad:
+                            case SensorType.HttpRequestGet:
                                 {
                                     stringBuilder.Append(
-                                        $"{SensorType.PageLoad.AsString(EnumFormat.Description)} for url {message.ServiceUrl} available." + "<br/>");
+                                        $"{SensorType.HttpRequestGet.AsString(EnumFormat.Description)} for url {message.ServiceUrl} available." + "<br/>");
                                     stringBuilder.Append(
-                                       $"{SensorType.PageLoad.AsString(EnumFormat.Description)} was unavailable for {Convert.ToInt32((DateTime.Now - message.LastAvailable).GetValueOrDefault().TotalMinutes.ToString())} minutes." + "<br/>");
+                                       $"{SensorType.HttpRequestGet.AsString(EnumFormat.Description)} was unavailable for {Convert.ToInt32((DateTime.Now - message.LastAvailable).GetValueOrDefault().TotalMinutes.ToString())} minutes." + "<br/>");
                                     break;
                                 }
                         }

@@ -28,7 +28,7 @@ namespace Owleye.Application.Handlers
 
             //TODO  extension
             var cacheKey =
-                $"{notification.EndPointId}-{nameof(SensorType.PageLoad)}-{DateTime.Now.ToString(@"yyyy-MM-dd")}";
+                $"{notification.EndPointId}-{nameof(SensorType.HttpRequestGet)}-{DateTime.Now.ToString(@"yyyy-MM-dd")}";
 
             monitoringHistory = await _cache.GetAsync<MonitoringHistoryDto>(cacheKey) ?? new MonitoringHistoryDto();
 
@@ -42,8 +42,9 @@ namespace Owleye.Application.Handlers
                     {
                         endPointAddress = notification.PageUrl,
                         notificationList = notification.NotificationList,
-                        sensorType = SensorType.PageLoad,
-                        sensorAvailability = notification.LoadSuccess
+                        sensorType = SensorType.HttpRequestGet,
+                        sensorAvailability = notification.LoadSuccess,
+                        Name = notification.Name,
                     });
             }
 
@@ -54,8 +55,9 @@ namespace Owleye.Application.Handlers
                 {
                     endPointAddress = notification.PageUrl,
                     notificationList = notification.NotificationList,
-                    sensorType = SensorType.PageLoad,
-                    sensorAvailability = notification.LoadSuccess
+                    sensorType = SensorType.HttpRequestGet,
+                    sensorAvailability = notification.LoadSuccess,
+                    Name = notification.Name,
                 });
             }
 

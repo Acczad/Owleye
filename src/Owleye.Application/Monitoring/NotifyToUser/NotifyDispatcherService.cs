@@ -1,8 +1,6 @@
 ﻿using MediatR;
-using Microsoft.Extensions.Logging;
 using Owleye.Application.Notifications.Messages;
 using Owleye.Domain;
-using Owleye.Shared.Cache;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -20,28 +18,17 @@ namespace Owleye.Application.Monitoring.NotifyToUser
         public SensorType sensorType { get; set; }
         public bool sensorAvailability { get; set; }
         public DateTime? lastAvailable { get; set; }
+        public string Name { get; set; }
     }
 
     public class NotifyDispatcherService : INotifyDispatcherService
     {
         private readonly IMediator _mediator;
-        private readonly IRedisCache _redisCache;
-        private readonly ILogger<NotifyInfo> logger;
-        object _lock = new object();
-
-        public object Configuration { get; private set; }
-
-        public NotifyDispatcherService(
-            IMediator mediator,
-            IRedisCache redisCache,
-            ILogger<NotifyInfo> logger)
+        public NotifyDispatcherService(IMediator mediator)
         {
             _mediator = mediator;
-            _redisCache = redisCache;
-            this.logger = logger;
         }
-        public async Task Notify(
-            NotifyInfo notifyInfo)
+        public async Task Notify(NotifyInfo notifyInfo)
         {
             if (notifyInfo.notificationList.ContainsKey(NotificationType.Email))
             {
@@ -51,7 +38,8 @@ namespace Owleye.Application.Monitoring.NotifyToUser
                     SensorType = notifyInfo.sensorType,
                     EmailAddresses = notifyInfo.notificationList[NotificationType.Email],
                     IsServiceAlive = notifyInfo.sensorAvailability,
-                    LastAvailable = notifyInfo.lastAvailable
+                    LastAvailable = notifyInfo.lastAvailable,
+                    Name=notifyInfo.Name
                 });
             }
 
@@ -62,7 +50,8 @@ namespace Owleye.Application.Monitoring.NotifyToUser
                     ServiceUrl = notifyInfo.endPointAddress,
                     SensorType = notifyInfo.sensorType,
                     IsServiceAlive = notifyInfo.sensorAvailability,
-                    LastAvailable = notifyInfo.lastAvailable
+                    LastAvailable = notifyInfo.lastAvailable,
+                    Name=notifyInfo.Name
                 });
             }
 
@@ -74,7 +63,8 @@ namespace Owleye.Application.Monitoring.NotifyToUser
                     SensorType = notifyInfo.sensorType,
                     PhoneNumbers = notifyInfo.notificationList[NotificationType.Sms],
                     IsServiceAlive = notifyInfo.sensorAvailability,
-                    LastAvailable = notifyInfo.lastAvailable
+                    LastAvailable = notifyInfo.lastAvailable,
+                    Name=notifyInfo.Name
                 });
             }
 
@@ -86,7 +76,8 @@ namespace Owleye.Application.Monitoring.NotifyToUser
                     SensorType = notifyInfo.sensorType,
                     DiscordHookApis = notifyInfo.notificationList[NotificationType.Discord],
                     IsServiceAlive = notifyInfo.sensorAvailability,
-                    LastAvailable = notifyInfo.lastAvailable
+                    LastAvailable = notifyInfo.lastAvailable,
+                    Name=notifyInfo.Name
                 });
             }
 
@@ -98,7 +89,8 @@ namespace Owleye.Application.Monitoring.NotifyToUser
                     SensorType = notifyInfo.sensorType,
                     EmailAddresses = notifyInfo.notificationList[NotificationType.MicrosoftTeam],
                     IsServiceAlive = notifyInfo.sensorAvailability,
-                    LastAvailable = notifyInfo.lastAvailable
+                    LastAvailable = notifyInfo.lastAvailable,
+                    Name=notifyInfo.Name
                 });
             }
         }

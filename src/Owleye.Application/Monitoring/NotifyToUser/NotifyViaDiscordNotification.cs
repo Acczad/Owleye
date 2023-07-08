@@ -13,5 +13,6 @@ namespace Owleye.Application.Notifications.Messages
         public List<string> DiscordHookApis { get; set; }
         public bool IsServiceAlive { get; set; }
         public DateTime? LastAvailable { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace Owleye.Application.Notifications.Messages
         public bool IsServiceAlive { get; set; }
         public DateTime? LastAvailable { get; set; }
         public List<string> PhoneNumbers { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -34,11 +34,12 @@ namespace Owleye.Application.Handlers
                                 {
                                     IpAddress = sensor.EndPoint.IpAddress,
                                     EndPointId = sensor.EndPointId,
-                                    NotificationList= notifList
+                                    NotificationList= notifList,
+                                    Name = sensor.EndPoint.Name
                                 });
                             break;
                         }
-                    case SensorType.PageLoad:
+                    case SensorType.HttpRequestGet:
                         {
                             await _mediator.Publish(
                                 new DoPageLoadNotification
@@ -46,6 +47,7 @@ namespace Owleye.Application.Handlers
                                     PageUrl = sensor.EndPoint.Url,
                                     NotificationList= notifList,
                                     EndPointId = sensor.EndPointId,
+                                    Name = sensor.EndPoint.Name
                                 });
 
                             break;
@@ -58,6 +60,7 @@ namespace Owleye.Application.Handlers
                                     IpAddress = sensor.EndPoint.IpAddress,
                                     NotificationList= notifList,
                                     EndPointId = sensor.EndPointId,
+                                    Name = sensor.EndPoint.Name
                                 });
 
                             break;

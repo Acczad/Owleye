@@ -10,6 +10,8 @@ using Newtonsoft.Json;
 using System.Text;
 using Owleye.Shared.Model.MicrosoftTeams;
 using Owleye.Shared.MicrosoftTeams;
+using System.Linq;
+using Owleye.Shared.Extentions;
 
 namespace Owleye.Infrastructure.MicrosoftTeams
 {
@@ -24,22 +26,19 @@ namespace Owleye.Infrastructure.MicrosoftTeams
         {
             _redisCache=redisCache;
             _configuration=configuration;
-            _baseUrl = configuration["MicrosoftGraphApi.BaseUrl"];
+            _baseUrl = configuration["MicrosoftGraphApi:BaseUrl"];
         }
 
         public async Task SendTeamsMessageAsync(SendTeamsUsersMessageRequest request)
         {
             var token = await CheckTokenValidityAsync();
             var me = await GetMeAsync();
-            foreach (var mail in request.Emails)
+            var chatResponseId = await CreateTeamsChatAsync(request, "Owleye Monitoring", me.Id);
+            if (chatResponseId.IsNotNullOrEmpty())
             {
-                var chatResponseId = await CreateTeamsChatAsync(request, null, me.Id);
-                if (chatResponseId.IsNotNullOrEmpty())
-                {
-                    var url = GetFullUrl($"/chats/{chatResponseId}/messages");
-                    var message = new GraphSendMessageInChat(request.Message);
-                    var chatResult = PostAsJsonAsync<string>(message, url, token);
-                }
+                var url = GetFullUrl($"/chats/{chatResponseId}/messages");
+                var message = new GraphSendMessageInChat(request.Message);
+                await PostAsJsonAsync<string>(message, url, token);
             }
         }
         private async Task<string> GetTeamsUserIdByEmailAsync(string email)
@@ -76,6 +75,18 @@ namespace Owleye.Infrastructure.MicrosoftTeams
             if (!string.IsNullOrEmpty(senderUserId))
                 userIds.Add(senderUserId);
 
+            topic = userIds.Count<=2 ? null : topic;
+
+            var strBuilder = new StringBuilder();
+            foreach (var item in request.Emails)
+            {
+                strBuilder.Append(item.ToString());
+            }
+            var cacheKey = $"owleye-grpchat-{strBuilder.ToString().CreateMD5Hash()}";
+            var chatKey = await _redisCache.GetAsync<string>(cacheKey);
+            if (chatKey.IsNotNullOrEmpty())
+                return chatKey;
+
             foreach (var email in request.Emails)
             {
                 var userIdOfEmail = await GetTeamsUserIdByEmailAsync(email);
@@ -89,9 +100,10 @@ namespace Owleye.Infrastructure.MicrosoftTeams
 
 
             var newChatRequstData = new MicrosoftTeamsConversation(chatType, topic, _baseUrl, userIds);
-            var newChatResultData = await PostAsJsonAsync<GraphCreateChatResult>(newChatRequstData,url, token);
+            var newChatResultData = await PostAsJsonAsync<GraphCreateChatResult>(newChatRequstData, url, token);
             if (newChatResultData.Id.IsNotNullOrEmpty())
             {
+                await _redisCache.SetAsync<string>(cacheKey, newChatResultData.Id, 90*24*3600);
                 return newChatResultData.Id;
             }
 
@@ -112,7 +124,7 @@ namespace Owleye.Infrastructure.MicrosoftTeams
             if (token.IsNullOrEmpty()) return null;
 
             var url = GetFullUrl($"/me");
-            var me = await GetAsync<MicrosoftTemasUserModel>(url,token);
+            var me = await GetAsync<MicrosoftTemasUserModel>(url, token);
 
             if (me == null || string.IsNullOrEmpty(me.Id))
                 return null;
@@ -127,13 +139,13 @@ namespace Owleye.Infrastructure.MicrosoftTeams
         }
         private async Task<string> GetCurrentTokenAsync()
         {
-            var token = await _redisCache.GetAsync<string>(_configuration["MicrosoftGraphApi.CacheKeyForToken"]);
+            var token = await _redisCache.GetAsync<string>(_configuration["MicrosoftGraphApi:CacheKeyForToken"]);
             return token;
         }
         private async Task<string> CheckAndGetTokenAsync()
         {
             var token = await _redisCache.GetAsync<string>(_configuration["MicrosoftGraphApi:CacheKeyForToken"]);
-            if (token.IsNullOrEmpty()) return token;
+            if (token.IsNotNullOrEmpty()) return token;
 
             var refreshToken = await _redisCache.GetAsync<string>(_configuration["MicrosoftGraphApi:CacheKeyForRefreshToken"]);
 
@@ -151,12 +163,15 @@ namespace Owleye.Infrastructure.MicrosoftTeams
         private async Task<MicrosoftTemasUserModel> GetMeFromCacheAsync()
         {
             var cacheKey = $"currentteamagent";
-            return await _redisCache.GetAsync<MicrosoftTemasUserModel>(cacheKey);
+            var me = await _redisCache.GetAsync<string>(cacheKey);
+            if (me == null) return null;
+            return JsonConvert.DeserializeObject<MicrosoftTemasUserModel>(me);
         }
         private async Task SaveMeCacheAsync(MicrosoftTemasUserModel me)
         {
             var cacheKey = $"currentteamagent";
-            await _redisCache.SetAsync(cacheKey, me);
+            var meAsJson = JsonConvert.SerializeObject(me);
+            await _redisCache.SetAsync<string>(cacheKey, meAsJson);
         }
         private async Task StoreTokenInCacheAsync(MicrosoftTeamsToken token)
         {
@@ -165,7 +180,7 @@ namespace Owleye.Infrastructure.MicrosoftTeams
 
             await _redisCache.SetAsync(
                _configuration["MicrosoftGraphApi:CacheKeyForToken"],
-                token.Access_token);
+                token.Access_token, 1000);
 
             await _redisCache.SetAsync(
                _configuration["MicrosoftGraphApi:CacheKeyForRefreshToken"],
@@ -242,7 +257,7 @@ namespace Owleye.Infrastructure.MicrosoftTeams
             if (response.IsSuccessStatusCode)
             {
                 var serviceResult = await response.Content.ReadAsStringAsync();
-                PrepareResultType<T>(serviceResult);
+                return PrepareResultType<T>(serviceResult);
             }
 
             throw new Exception($"Post failed. {url} \n {response.ReasonPhrase}");

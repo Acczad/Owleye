@@ -25,13 +25,9 @@ namespace Owleye.Application.Handlers
         }
         public async Task Handle(PortCheckResultNotification notification, CancellationToken cancellationToken)
         {
-            MonitoringHistoryDto history = null;
+            var cacheKey = $"{notification.EndPointId}-{nameof(SensorType.PortCheck)}-{DateTime.Now.ToString(@"yyyy-MM-dd")}";
 
-            //TODO  extension
-            var cacheKey =
-                $"{notification.EndPointId}-{nameof(SensorType.PortCheck)}-{DateTime.Now.ToString(@"yyyy-MM-dd")}";
-
-            history = await _cache.GetAsync<MonitoringHistoryDto>(cacheKey) ?? new MonitoringHistoryDto();
+            var history = await _cache.GetAsync<MonitoringHistoryDto>(cacheKey) ?? new MonitoringHistoryDto();
 
             if (history.LastStatus != notification.PortCheckSuccess)
             {
@@ -41,7 +37,8 @@ namespace Owleye.Application.Handlers
                         endPointAddress = notification.IpAddress,
                         notificationList = notification.NotificationList,
                         sensorType = SensorType.PortCheck,
-                        sensorAvailability = notification.PortCheckSuccess
+                        sensorAvailability = notification.PortCheckSuccess,
+                        Name = notification.Name,
                     });
             }
 
