@@ -18,7 +18,7 @@ namespace Owleye.Infrastructure.Data.ModelMapping
                 .HasMaxLength(500);
 
             builder.Property(t => t.IpAddress)
-                .HasMaxLength(15);
+                .HasMaxLength(21);
 
             builder.Property(t => t.WebPageMetaKeyword)
                 .HasMaxLength(255);

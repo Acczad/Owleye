@@ -18,36 +18,6 @@ namespace Owleye.Domain
         public string Url { get; protected set; }
         public string WebPageMetaKeyword { get; protected set; }
 
-        public static EndPoint Create(string name, string ipAddress, string url, string webPageMetaKeywords)
-        {
-            name = name.Trim();
-            webPageMetaKeywords = webPageMetaKeywords.Trim();
-
-            Guard.Argument(name, nameof(name)).NotEmpty().NotNull();
-
-            if (ipAddress.IsNotNullOrEmpty())
-            {
-                var isValid = ipAddress.IsIPv4();
-                Guard.Argument(isValid, nameof(ipAddress)).True("Invalid ip address");
-            }
-
-            if (url.IsNotNullOrEmpty())
-            {
-                var isValid = url.IsUrl();
-                Guard.Argument(isValid, nameof(url)).True("Invalid url address");
-            }
-
-            return new EndPoint
-            {
-                Name = name,
-                IpAddress = ipAddress,
-                Created = DateTimeOffset.Now,
-                Url = url,
-                WebPageMetaKeyword = webPageMetaKeywords,
-            };
-
-        }
-
         public ICollection<Notification> Notification { get; set; }
         public ICollection<Sensor> Sensors { get; set; }
 

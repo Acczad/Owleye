@@ -30,7 +30,7 @@ namespace Owleye.Application.Handlers
 
         public async Task Handle(DoPageLoadNotification notification, CancellationToken cancellationToken)
         {
-            var cacheKey = $"{notification.EndPointId}-{nameof(SensorType.PageLoad)}";
+            var cacheKey = $"{notification.EndPointId}-{nameof(SensorType.HttpRequestGet)}";
             var operation = await _cache.GetAsync<OngoingOperationDto>(cacheKey);
 
 
@@ -60,12 +60,13 @@ namespace Owleye.Application.Handlers
             }
             else
             {
-                _mediator.Publish(new PageLoadResultNotification
+                await _mediator.Publish(new PageLoadResultNotification
                 {
                     PageUrl = notification.PageUrl,
                     EndPointId = notification.EndPointId,
                     NotificationList = notification.NotificationList,
-                    LoadSuccess = urlResult
+                    LoadSuccess = urlResult,
+                    Name = notification.Name,
                 }, cancellationToken);
 
             }

@@ -9,6 +9,7 @@ namespace Owleye.Application.Notifications.Messages
     {
         public string ServiceUrl { get; set; }
         public string IpAddress { get; set; }
+        public string Name { get; set; }
         public SensorType SensorType { get; set; }
         public bool IsServiceAlive { get; set; }
         public DateTime? LastAvailable { get; set; }

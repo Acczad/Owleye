@@ -65,7 +65,8 @@ namespace Owleye.Application.Handlers
                     IpAddress = notification.IpAddress,
                     EndPointId = notification.EndPointId,
                     NotificationList=notification.NotificationList,
-                    PortCheckSuccess = portCheckResult
+                    PortCheckSuccess = portCheckResult,
+                    Name = notification.Name,
                 }, cancellationToken);
 
             }

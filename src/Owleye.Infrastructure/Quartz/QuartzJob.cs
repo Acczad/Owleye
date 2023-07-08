@@ -23,7 +23,7 @@ namespace Owleye.Application
                 SensorInterval = interval
             };
 
-            var sensors = await mediator.Send(query);
+            var sensors =  (mediator.Send(query)).Result;
 
             await mediator.Publish(new EndPointsCheckNotification
             {

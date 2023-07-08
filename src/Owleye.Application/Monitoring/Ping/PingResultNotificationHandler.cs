@@ -41,7 +41,8 @@ namespace Owleye.Application.Handlers
                         endPointAddress = notification.IpAddress,
                         notificationList = notification.NotificationList,
                         sensorType = SensorType.Ping,
-                        sensorAvailability = notification.PingSuccess
+                        sensorAvailability = notification.PingSuccess,
+                        Name=notification.Name,
                     });
             }
 

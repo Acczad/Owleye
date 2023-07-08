@@ -7,8 +7,8 @@ namespace Owleye.Domain
         [Description("Ping")]
         Ping = 0,
         DnsCheck = 1,
-        [Description("PageLoad")]
-        PageLoad = 2,
+        [Description("HTTP Request GET")]
+        HttpRequestGet = 2,
         [Description("PortCheck")]
         PortCheck = 3
     }

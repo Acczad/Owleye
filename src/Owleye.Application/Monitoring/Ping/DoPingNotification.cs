@@ -8,6 +8,7 @@ namespace Owleye.Application.Dto.Messages
     {
         public int EndPointId { get; set; }
         public string IpAddress { get; set; }
+        public string Name { get; set; }
         public Dictionary<NotificationType,List<string>> NotificationList { get; set; }
     }
 }
